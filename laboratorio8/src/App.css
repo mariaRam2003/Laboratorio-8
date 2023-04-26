@@ -1,6 +1,13 @@
 .App {
   max-width: 860px;
   margin: 40px auto;
+  font-family: F1Font;
+}
+
+/*FONT*/
+@font-face {
+  font-family: F1Font;
+  src: url(Formula1-Font.ttf);
 }
 
 button {
@@ -9,6 +16,7 @@ button {
   padding: 6px 12px;
   border-radius: 4px;
   color: black;
+  font-family: F1Font;
   font-weight: bold;
   cursor: pointer;
   font-size: 1em;  
