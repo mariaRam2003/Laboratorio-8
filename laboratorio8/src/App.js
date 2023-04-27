@@ -20,6 +20,7 @@ function App() {
   const [turns, setTurns] = useState(0)
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
+  const [disabled, setDisabled] = useState(false)
 
   // shuffle cards
   const shuffleCards = () => {
@@ -40,6 +41,7 @@ function App() {
   //compare 2 selected cards
   useEffect(() => {
     if (choiceOne && choiceTwo){
+      setDisabled(true)
 
       if (choiceOne.src === choiceTwo.src) {
         setCards(prevCards => {
@@ -65,13 +67,14 @@ function App() {
     setChoiceOne(null)
     setChoiceTwo(null)
     setTurns(prevTurns => prevTurns + 1)
+    setDisabled(false)
   }
 
   return (
     <div className="App">
-      <h1>Memoria Formula 1</h1>
+      <h1>Formula 1 Match</h1>
       <div class="container">
-        <button onClick={shuffleCards}>Nuevo Juego</button>
+        <button onClick={shuffleCards}>New Game</button>
         <div class="f1-car"></div>
       </div>
 
@@ -82,9 +85,11 @@ function App() {
             card={card} 
             handleChoice={handleChoice}
             flipped={card === choiceOne || card === choiceTwo || card.matched}
+            disabled={disabled}
             />
           ))}
       </div>
+      <p>Turns: {turns}</p>
     </div>
   );
 }
