@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Formula 1 Match</h1>
+      <h1>F1 Memory Grand Prix</h1>
       <div class="container">
         <button onClick={shuffleCards}>New Game</button>
         <div class="f1-car"></div>
