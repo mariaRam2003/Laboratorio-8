@@ -58,8 +58,10 @@ button:hover + .f1-car {
 
 
 .card-grid {
-  margin-top: 40px;
+  margin-top: 300px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   grid-gap: 20px;
 }
+

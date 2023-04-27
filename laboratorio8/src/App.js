@@ -1,23 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import SingleCard from './components/SingleCard';
 
 
 const cardImages = [
-  { "src": "img/AlfaRomeo.png" },
-  { "src": "img/Alpine.png" },
-  { "src": "img/AstonMartin.png" },
-  { "src": "img/F1L4.png" },
-  { "src": "img/Ferrari.png" },
-  { "src": "img/Mclaren.png" },
-  { "src": "img/Mercedes.png" },
-  { "src": "img/RedBull.png" }
+  { "src": "img/AlfaRomeo.png", matched: false },
+  { "src": "img/Alpine.png", matched: false },
+  { "src": "img/AstonMartin.png", matched: false },
+  { "src": "img/F1L4.png", matched: false },
+  { "src": "img/Ferrari.png", matched: false },
+  { "src": "img/Mclaren.png", matched: false },
+  { "src": "img/Mercedes.png", matched: false },
+  { "src": "img/RedBull.png", matched: false }
 ]
 
 
 function App() {
   const [cards, setCards] = useState([])
   const [turns, setTurns] = useState(0)
-
+  const [choiceOne, setChoiceOne] = useState(null)
+  const [choiceTwo, setChoiceTwo] = useState(null)
 
   // shuffle cards
   const shuffleCards = () => {
@@ -29,8 +31,41 @@ function App() {
     setTurns(0)
   }
 
-  console.log(cards,turns)
 
+  // handle a choice
+  const handleChoice = (card) => {
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+  }
+
+  //compare 2 selected cards
+  useEffect(() => {
+    if (choiceOne && choiceTwo){
+
+      if (choiceOne.src === choiceTwo.src) {
+        setCards(prevCards => {
+          return prevCards.map(card => {
+            if (card.src === choiceOne.src) {
+              return {...card, matched: true}
+            } else {
+              return card
+            }
+          })
+        })
+        resetTurn()
+      } else {
+        resetTurn()
+      }
+    }
+  }, [choiceOne, choiceTwo])
+
+  console.log(cards)
+
+  // reset choices & increase turn
+  const resetTurn = () => {
+    setChoiceOne(null)
+    setChoiceTwo(null)
+    setTurns(prevTurns => prevTurns + 1)
+  }
 
   return (
     <div className="App">
@@ -38,19 +73,17 @@ function App() {
       <div class="container">
         <button onClick={shuffleCards}>Nuevo Juego</button>
         <div class="f1-car"></div>
-
-        <div className="card-grid"></div>
-          {cards.map(card => (
-            <div className='card' key={card.id}>
-              <div>
-                <img className='front' src={card.src} alt="card front"/>
-                <img className='back' src="/img/Cover.png" alt='card back' />
-              </div>
-            </div>
-          ))}
-
       </div>
-     
+
+      <div className="card-grid">
+          {cards.map(card => (
+            <SingleCard 
+            key={card.id} 
+            card={card} 
+            handleChoice={handleChoice}
+            />
+          ))}
+      </div>
     </div>
   );
 }
